@@ -8,8 +8,8 @@
    * [サーバー内の仕組み](#サーバー内の仕組み)
       * [qstat](#qstat)
          * [State of Jobs（ジョブの状態）](#state-of-jobsジョブの状態)
-      * [qsub (<strong>WIP</strong>)](#qsub-wip)
-      * [qlogin (<strong>WIP</strong>)](#qlogin-wip)
+      * [qsub](#qsub)
+      * [qlogin (<strong>WIP</strong>)](#qlogin-wip-)
 
 # サーバーに入るまで
 ## 初心者の方へ
@@ -77,7 +77,7 @@ then `ssh remote_server`.
 * `qstat`とすると、キューに並んだ自分のジョブの一覧が表示されます。
     * 何も予約していない状態だと何も表示されません。
 
-* `qstat -f`とすると、全てのキューについて自分のジョブの一覧が表示されます。
+* `qstat -f`とすると、全てのキューについて自分のジョブが（そんざいするならば）表示されます。
     * 何も予約していない状態だと全てのキューのみが出ます。
 
 * `qstat -u <ユーザー名>`とすると、そのユーザーのジョブの一覧が表示されます。
@@ -101,7 +101,12 @@ qstatで得られる情報の中でも、ジョブの状態(state)は役に立�
 * r(unning)
     * ジョブが実行されている
 
-## qsub (WIP)
+## qhost
+計算機ノードを全て表示します。 
+
+`qhost -q`でそれらのノードのキューの情報も表示し、`qhost -j`で更にジョブの一覧も表示します。
+
+## qsub
 `qsub`は、シェルスクリプトの形でジョブを提出できるコマンドです。queue submissionの略でしょう。
 
 試しに、シェルスクリプトを書いて実行してもらいましょう。`test.sh`に
