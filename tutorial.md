@@ -174,9 +174,11 @@ echo "too bad" 1>&2
 なお、適当なキューに`qlogin`してから行うことをすすめます（そのまま計算に入ることができるので）。
 
 ## Singularity
-`singularity`は、自前の環境を作ることができるライブラリです。`Docker`でええやん、と思う人がいるかもしれませんが、`Docker`を使うためには管理者権限が必要となります。共用サーバで管理者権限を与えるのは危ないので却下です。
+`singularity`を使うと自前の環境を作ることができます。
 
-ここでは例として、GPUが使用できる環境を構築してそこにminicondaをつかってpython3やその他パッケージをインストールしてみます。
+*   Dockerでええやん、と思う人がいるかもしれませんが、Dockerを使うと必然的にroot権限がついてくるようで、共用サーバでroot権限をユーザに与えるのは危ないので使いません。[参考(reddit)](https://www.reddit.com/r/docker/comments/7y2yp2/why_is_singularity_used_as_opposed_to_docker_in/)
+
+ここでは例として、GPUが使用できる環境を構築してみます。
 
 1.  `cd ~`
 
@@ -191,6 +193,8 @@ echo "too bad" 1>&2
     * これで自前のubuntu環境に入れました！
     * `--nv`オプションはGPUを認識させるために必要です。
     * 環境に入ったら、`nvidia-smi`や`nvcc --version`などでGPUドライバやCUDAの調子を確かめてみましょう。GPUが認識されているはずです。
+
+次に、Minicondaを入れましょう。Python3やそのライブラリをインストールできます。
 4.  `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
 
     `bash ./Miniconda3-latest-Linux-x86_64.sh`
@@ -201,4 +205,4 @@ echo "too bad" 1>&2
 6. `conda install numpy`
     * もちろん`numpy`以外にもいろいろ落とせます。環境構築成功です、お疲れ様でした！
 
-2回目以降は3から(4を飛ばして)実行すればいいです。
+2回目以降は3,5,6を実行すればいいです。
