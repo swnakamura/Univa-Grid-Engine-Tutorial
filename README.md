@@ -4,4 +4,4 @@ KaiRAでGPUを使って実践してみたいことがある人は`#computing`チ
 
 また`#computing`チャンネルではGPUサーバについての質問も歓迎です。質問があったら遠慮せず訊いてください！
 
-[tutorial.md](tutorial.md)でGPUサーバ内にあるUniva Grid Engineの使い方を解説します。非KaiRAメンバーの方もご自由にお読みください。
+[tutorial.md](tutorial.md)でGPUサーバ内にあるUniva Grid Engineの使い方を解説します。
