@@ -149,7 +149,7 @@ echo "too bad" 1>&2
 ### キューの指定
 `qsub`および`qlogin`では、`-q <queue_name>`でキューを指定できます。`qstat -f`ででてくる`queuename`を入力すると、そのキューで実行/そのキューにログインするように指定できます。
 
-ただし、できれば`qstat -u '*' -f`で誰も使っていないキューを選ぶようにしましょう。
+ただし、できれば`qstat -u '*' -f`で誰も使っていないキューを探して選ぶようにしましょう。
 
 ## qdel
 `qdel <job_ID>`でジョブを消します。
@@ -164,3 +164,35 @@ echo "too bad" 1>&2
 ### キューの指定-練習
 誰も使っていないキューを一つ選び、そこに`qlogin`します。そこで`nvidia-smi`を実行し、搭載されているGPUのモデルを調べてみましょう。
 
+# Singularityを使った環境構築
+計算用ノードには、デフォルトでは最低限のプログラムしか入っていないので、TensorFlowやPytorchといったディープラーニングライブラリはおろかPython3すら入っていません。
+
+この文章を読む人の多くがPythonを使ってディープラーニングしたい人だと思うので、その環境構築のやり方について説明しておきます。
+
+なお、適当なキューに`qlogin`してから行うことをすすめます（そのまま計算に入ることができるので）。
+
+## Singularity
+`singularity`は、自前の環境を作ることができるライブラリです。`Docker`でええやん、と思う人がいるかもしれませんが、`Docker`を使うためには管理者権限が必要となります。共用サーバで管理者権限を与えるのは危ないので却下です。
+
+ここでは例として、一番簡単なやり方でUbuntu環境を構築してそこにminicondaをつかってpython3やその他パッケージをインストールしてみます。
+
+1.  `cd ~`
+
+    `mkdir miniconda`
+
+    `cd miniconda`
+    * ホームに`miniconda`ディレクトリを作成します。
+2. `singularity pull docker://ubuntu:latest`
+    * ubuntuをどっかから落としてきます。~~（どっかとDockerをかけました）~~
+3. `singularity shell ubuntu-latest.simg`
+    * これで自前のubuntu環境に入れました！
+4.  `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+
+    `bash ./Miniconda3-latest-Linux-x86_64.sh`
+    * https://docs.conda.io/en/latest/miniconda.html のLinux 64-bit bash installerを落としてきて、実行します。
+5. `export PATH="/home/<your_username>/miniconda3/bin:$PATH"`
+    * インストール場所をデフォルトから変えていなければ、`~/miniconda3/bin`に`python3`などが入っているはずなので、そこにパスを通します。
+6. `conda install numpy`
+    * もちろん`numpy`以外にもいろいろ落とせます。環境構築成功です、お疲れ様でした！
+
+2回目以降は3から(4を飛ばして)実行すればいいです。
