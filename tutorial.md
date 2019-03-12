@@ -87,15 +87,17 @@ then `ssh remote_server`.
 
 * `qstat -j <ジョブID>`とすると、そのジョブの詳細な情報が表示されます。
 
-その他にもさまざまなコマンドがあるので、`man qstat`で読んでみましょう。
+その他にもさまざまなオプションがあるので、`man qstat`で読んでみましょう。
 
 ### State of Jobs（ジョブの状態）
 qstatで得られる情報の中でも、ジョブの状態(state)は役に立つ情報です。
 
 * E(rror)
     * 問題によりジョブが開始できなかった。`qstat -j <job_ID>`で詳しい原因が読めます。
+    * `Eqw`の場合も同じ。エラーによるキュー待機中
 * w(aiting)
-    * ジョブが列で待っている
+    * ジョブが待っている
+    * `qw`はqueue waitingの略
 * t(ransfering)
     * ジョブの実行が開始されようとしている
 * r(unning)
