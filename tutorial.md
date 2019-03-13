@@ -67,12 +67,12 @@ ssh 114.514.191.981 -p 893 -l woody
 `~/.ssh/config`を
 ```
 Host remote_server
-    Hostname <IP_address>
-    port <Port_number>
-    user <your_username>
+    Hostname 114.514.191.981
+    port 893
+    user woody
 ```
 
-then `ssh remote_server`.
+とし（これもダミーデータです！）`ssh remote_server`しましょう。
 
 # サーバー内の仕組み
 こうして入ったサーバーですが、**ここで計算をしてはいけません**。ここから複数の計算用ノード（スパコン的なの）にアクセスできるようになっているので、そこで計算をするようにしましょう。
