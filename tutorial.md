@@ -7,6 +7,7 @@
    * [サーバー内の仕組み](#サーバー内の仕組み)
       * [qstat](#qstat)
          * [State of Jobs（ジョブの状態）](#state-of-jobsジョブの状態)
+         * [Priority(優先度)](#priority優先度)
       * [qhost](#qhost)
       * [qsub](#qsub)
          * [qsub-練習](#qsub-練習)
@@ -14,7 +15,7 @@
       * [qdel](#qdel)
       * [qlogin](#qlogin)
          * [キューの指定-練習](#キューの指定-練習)
-   * [Singularityを使った環境構築](#singularityを使った環境構築)
+   * [環境構築](#環境構築)
       * [Singularity](#singularity)
 
 # サーバーに入るまで
