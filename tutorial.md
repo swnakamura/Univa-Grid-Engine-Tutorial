@@ -32,7 +32,7 @@
 
 * Q. ターミナルだとAtomとかVS CodeとかPyCharmが使えないじゃん！テキストエディタは何使えばいいの？
 
-    A. **VIMにしましょう。いいね？**
+    A. **Vimにしましょう。いいね？**
 
 ローカルで黒い画面をいじって慣れたら次に進みましょう。
 
@@ -164,46 +164,51 @@ echo "too bad" 1>&2
 シェルからログアウトすると終了します。
 
 ### キューの指定-練習
-誰も使っていないキューを一つ選び、そこに`qlogin`します。そこで`nvidia-smi`を実行し、搭載されているGPUのモデルを調べてみましょう。異なるGPUのモデルが搭載されているキューはあるでしょうか？
+誰も使っていないキューを一つ選び、そこに`qlogin`します。そこで`nvidia-smi`を実行し、搭載されているグラフィックボードのモデルを調べてみましょう。
+*   別のグラボが搭載されているキューはありそうですか？
+*   自分の使いたいモデル・データが乗るだけのメモリ量がグラボにあるでしょうか？
 
-# Singularityを使った環境構築
+`nvcc --version`は実行できますか？
+*   インストールされているCUDAのバージョンはいくつでしょうか。
+
+# 環境構築
 計算用ノードには、デフォルトでは最低限のプログラムしか入っていないので、TensorFlowやPytorchといったディープラーニングライブラリはおろかPython3すら入っていません。
 
 この文章を読む人の多くがPythonを使ってディープラーニングしたい人だと思うので、その環境構築のやり方について説明しておきます。
 
 なお、適当なキューに`qlogin`してから行うことをすすめます（そのまま計算に入ることができるので）。
 
-## Singularity
-`singularity`を使うと自前の環境を作ることができます。
-
-*   Dockerでええやん、と思う人がいるかもしれませんが、Dockerを使うと必然的にroot権限がついてくるようで、共用サーバでroot権限をユーザに与えるのは危ないので使いません。[参考(reddit)](https://www.reddit.com/r/docker/comments/7y2yp2/why_is_singularity_used_as_opposed_to_docker_in/)
-
 ここでは例として、GPUが使用できる環境を構築してみます。
+
+まずMinicondaを入れましょう。Python3やそのライブラリをインストールできます。
 
 1.  `cd ~`
 
-    `mkdir miniconda`
+    `mkdir myenv`
 
-    `cd miniconda`
-    * ホームに`miniconda`ディレクトリを作成し、そこに移動します。
-    * このディレクトリ内に環境を作るだけなので、別に名前は何でもいいです。
-2.  `singularity pull docker://tensorflow/tensorflow:latest-gpu`
-    * GPU対応のUbuntuを落としてきます。
-3. `singularity shell --nv ubuntu-latest.simg`
-    * これで自前のubuntu環境に入れました！
-    * `--nv`オプションはGPUを認識させるために必要です。
-    * 環境に入ったら、`nvidia-smi`や`nvcc --version`などでGPUドライバやCUDAの調子を確かめてみましょう。GPUが認識されているはずです。
+    `cd myenv`
+    * ホームに`myenv`ディレクトリを作成し、そこに移動します。
+    * このディレクトリ内で環境づくりの作業をするだけなので、別に名前は何でもいいです。
 
-次に、Minicondaを入れましょう。Python3やそのライブラリをインストールできます。
-
-4.  `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+2.  `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
 
     `bash ./Miniconda3-latest-Linux-x86_64.sh`
     * https://docs.conda.io/en/latest/miniconda.html のLinux 64-bit bash installerを落としてきて、実行します。
     * Minicondaインストーラーはもう消しても構いません(`rm Miniconda3-latest-Linux-x86_64.sh`)。
-5. `export PATH="~/miniconda3/bin:$PATH"`
+3. `export PATH="~/miniconda3/bin:$PATH"`
     * インストール場所をデフォルトから変えていなければ、`~/miniconda3/bin`に`python3`などが入っているはずなので、そこにパスを通します。
-6. `conda install numpy`
-    * もちろん`numpy`以外にもいろいろ落とせます。環境構築成功です、お疲れ様でした！
+4. `conda install numpy`
+    * もちろん`numpy`以外にもいろいろ落とせます。
 
-2回目以降は3,5,6を実行すればいいです。自前の環境が不要な場合は、4〜6だけでも十分です。
+## Singularity
+`singularity`を使うと自前の環境を作ることができます。
+
+*   Dockerでええやん、と思う人がいるかもしれませんが、Dockerを使うと必然的にroot権限がついてくるようで、共用サーバでroot権限をユーザに与えるのは危ないので使いません。[（参考:reddit）](https://www.reddit.com/r/docker/comments/7y2yp2/why_is_singularity_used_as_opposed_to_docker_in/)
+
+
+1.  `singularity pull docker://tensorflow/tensorflow:latest-gpu`
+    * GPU対応のUbuntuを落としてきます。
+2. `singularity shell --nv ubuntu-latest.simg`
+    * これで自前のubuntu環境に入れました！
+    * `--nv`オプションはGPUを認識させるために必要です。
+    * 環境に入ったら、`nvidia-smi`や`nvcc --version`などでGPUドライバやCUDAの調子を確かめてみましょう。GPUが認識されているはずです。
