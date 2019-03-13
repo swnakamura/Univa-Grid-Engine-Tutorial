@@ -195,14 +195,15 @@ echo "too bad" 1>&2
     * 環境に入ったら、`nvidia-smi`や`nvcc --version`などでGPUドライバやCUDAの調子を確かめてみましょう。GPUが認識されているはずです。
 
 次に、Minicondaを入れましょう。Python3やそのライブラリをインストールできます。
+
 4.  `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
 
     `bash ./Miniconda3-latest-Linux-x86_64.sh`
     * https://docs.conda.io/en/latest/miniconda.html のLinux 64-bit bash installerを落としてきて、実行します。
     * Minicondaインストーラーはもう消しても構いません(`rm Miniconda3-latest-Linux-x86_64.sh`)。
-5. `export PATH="/home/<your_username>/miniconda3/bin:$PATH"`
+5. `export PATH="~/miniconda3/bin:$PATH"`
     * インストール場所をデフォルトから変えていなければ、`~/miniconda3/bin`に`python3`などが入っているはずなので、そこにパスを通します。
 6. `conda install numpy`
     * もちろん`numpy`以外にもいろいろ落とせます。環境構築成功です、お疲れ様でした！
 
-2回目以降は3,5,6を実行すればいいです。
+2回目以降は3,5,6を実行すればいいです。自前の環境が不要な場合は、4〜6だけでも十分です。
